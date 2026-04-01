@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G-Maps Health Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f5f5f3;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --text: #1a1a1a;
+    --muted: #666;
+    --accent: #1D9E75;
+    --warn-bg: #FAEEDA;
+    --warn-text: #854F0B;
+    --bad-bg: #FCEBEB;
+    --bad-text: #A32D2D;
+    --good-bg: #EAF3DE;
+    --good-text: #3B6D11;
+    --info-bg: #E6F1FB;
+    --info-text: #185FA5;
+    --radius: 12px;
+    --font: 'DM Sans', -apple-system, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --surface: #242424;
+      --border: rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.2);
+      --text: #f0f0f0;
+      --muted: #999;
+      --warn-bg: #2a1f00;
+      --warn-text: #FAC775;
+      --bad-bg: #2a0a0a;
+      --bad-text: #F09595;
+      --good-bg: #0a1f0a;
+      --good-text: #C0DD97;
+      --info-bg: #0a1a2a;
+      --info-text: #85B7EB;
+    }
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 700px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* HEADER */
+  .header { margin-bottom: 2.5rem; }
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    background: var(--info-bg);
+    color: var(--info-text);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .header h1 { font-size: 32px; font-weight: 500; line-height: 1.15; }
+  .header p { font-size: 15px; color: var(--muted); margin-top: 8px; }
+
+  /* SEARCH */
+  .search-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .search-row { display: flex; gap: 10px; align-items: flex-end; }
+  .field { flex: 1; }
+  .field label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 7px;
+  }
+  .field input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .field input:focus { outline: none; border-color: var(--accent); }
+  .field-sm { flex: 0 0 140px; }
+
+  .btn-primary {
+    padding: 11px 22px;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--font);
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.8; }
+  .btn-primary:disabled { opacity: 0.35; cursor: default; }
+
+  .api-notice {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--warn-bg);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--warn-text);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .api-notice strong { font-weight: 500; }
+
+  .api-key-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .api-key-row input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--mono);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .api-key-row input:focus { outline: none; border-color: var(--accent); }
+  .btn-save {
+    padding: 8px 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--font);
+    cursor: pointer;
+  }
+
+  .demo-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+  .demo-label { font-size: 12px; color: var(--muted); }
+  .demo-pill {
+    font-size: 12px;
+    padding: 4px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    cursor: pointer;
+    color: var(--muted);
+    background: var(--bg);
+    transition: all 0.15s;
+  }
+  .demo-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STATES */
+  .loading { text-align: center; padding: 3rem; color: var(--muted); font-size: 14px; display: none; }
+  .loading.show { display: block; }
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-msg {
+    background: var(--bad-bg);
+    color: var(--bad-text);
+    border: 1px solid rgba(226,75,74,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  /* RESULTS */
+  .results { display: none; }
+  .results.show { display: block; animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* SCORE HERO */
+  .score-hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 12px;
+  }
+  .ring-wrap { position: relative; width: 96px; height: 96px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); display: block; }
+  .ring-num {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .ring-num .n { font-family: var(--mono); font-size: 24px; font-weight: 500; display: block; }
+  .ring-num .s { font-family: var(--mono); font-size: 10px; color: var(--muted); display: block; margin-top: -2px; }
+  .score-meta h2 { font-size: 19px; font-weight: 500; }
+  .score-meta .addr { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .verdict-pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 10px;
+  }
+  .v-bad { background: var(--bad-bg); color: var(--bad-text); }
+  .v-mid { background: var(--warn-bg); color: var(--warn-text); }
+  .v-good { background: var(--good-bg); color: var(--good-text); }
+
+  /* METRICS */
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .metric .lbl { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 6px; }
+  .metric .val { font-family: var(--mono); font-size: 22px; font-weight: 500; }
+  .metric .sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* CRITERIA */
+  .criteria-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .criteria-head {
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    display: flex;
+    justify-content: space-between;
+  }
+  .crit-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .crit-row:last-child { border-bottom: none; }
+  .crit-row:hover { background: var(--surface); }
+  .crit-ico {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+  .ico-ok { background: var(--good-bg); color: var(--good-text); }
+  .ico-warn { background: var(--warn-bg); color: var(--warn-text); }
+  .ico-bad { background: var(--bad-bg); color: var(--bad-text); }
+  .crit-body { flex: 1; min-width: 0; }
+  .crit-title { font-size: 13px; font-weight: 500; }
+  .crit-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .crit-pts { font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+  /* RECOMMANDATIONS */
+  .reco-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .reco-head {
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .reco-item {
+    display: flex;
+    gap: 12px;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .reco-item:last-child { border-bottom: none; }
+  .reco-num {
+    width: 22px; height: 22px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 50%;
+    font-size: 11px;
+    font-family: var(--mono);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .reco-text { font-size: 13px; line-height: 1.5; }
+  .reco-gain { font-size: 11px; color: var(--accent); font-family: var(--mono); margin-top: 3px; }
+
+  /* CTA */
+  .cta-block {
+    background: var(--text);
+    color: var(--bg);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 12px;
+  }
+  .cta-block h3 { font-size: 15px; font-weight: 500; }
+  .cta-block p { font-size: 13px; opacity: 0.65; margin-top: 4px; }
+  .btn-cta {
+    flex-shrink: 0;
+    padding: 11px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--font);
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-cta:hover { opacity: 0.85; }
+
+  /* RAPPORT PDF */
+  .btn-export {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+  .btn-export:hover { background: var(--surface); }
+
+  @media (max-width: 520px) {
+    .search-row { flex-direction: column; }
+    .field-sm { flex: 1; }
+    .btn-primary { width: 100%; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .cta-block { flex-direction: column; align-items: flex-start; }
+    .btn-cta { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <span class="badge">G-MAPS HEALTH CHECKER · v1.0</span>
+    <h1>Auditez la fiche Google<br>de n'importe quel commerce</h1>
+    <p>Score de visibilité locale · Diagnostic complet · Rapport PDF en un clic</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-card">
+    <div class="search-row">
+      <div class="field">
+        <label>NOM DU COMMERCE</label>
+        <input type="text" id="placeName" placeholder="ex: Le Bistrot du Port" />
+      </div>
+      <div class="field field-sm">
+        <label>VILLE</label>
+        <input type="text" id="placeCity" placeholder="ex: Lyon" />
+      </div>
+      <button class="btn-primary" id="btnAnalyze" onclick="analyzePlace()">Analyser →</button>
+    </div>
+
+    <!-- Clé API -->
+    <div class="api-notice">
+      <div>
+        <strong>Mode démo actif.</strong> Pour des données réelles, entrez votre clé Google Places API
+        (gratuite jusqu'à ~1000 req/mois) :
+        <div class="api-key-row">
+          <input type="password" id="apiKeyInput" placeholder="AIza..." />
+          <button class="btn-save" onclick="saveKey()">Enregistrer</button>
+        </div>
+        <div style="margin-top:6px; font-size:11px;">
+          <a href="https://console.cloud.google.com/apis/library/places-backend.googleapis.com" target="_blank" style="color:var(--warn-text);">
+            → Obtenir une clé gratuite sur Google Cloud Console
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Démos -->
+    <div class="demo-row">
+      <span class="demo-label">Démos :</span>
+      <div class="demo-pill" onclick="loadDemo('bad')">Restaurant (mauvaise fiche)</div>
+      <div class="demo-pill" onclick="loadDemo('mid')">Coiffeur (fiche moyenne)</div>
+      <div class="demo-pill" onclick="loadDemo('good')">Plombier (bonne fiche)</div>
+    </div>
+  </div>
+
+  <!-- ERREUR -->
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- CHARGEMENT -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div><br>
+    Analyse en cours...
+  </div>
+
+  <!-- RÉSULTATS -->
+  <div class="results" id="results">
+
+    <!-- Score -->
+    <div class="score-hero">
+      <div class="ring-wrap">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="40" fill="none" stroke="var(--border)" stroke-width="7"/>
+          <circle cx="48" cy="48" r="40" fill="none" stroke-width="7" stroke-linecap="round"
+            id="scoreArc"
+            stroke-dasharray="251"
+            stroke-dashoffset="251"
+            stroke="var(--accent)"
+            style="transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1), stroke 0.4s;"/>
+        </svg>
+        <div class="ring-num">
+          <span class="n" id="scoreNum">—</span>
+          <span class="s">/100</span>
+        </div>
+      </div>
+      <div class="score-meta">
+        <h2 id="rName">—</h2>
+        <div class="addr" id="rAddr">—</div>
+        <span class="verdict-pill" id="verdictPill">—</span>
+      </div>
+    </div>
+
+    <!-- Métriques clés -->
+    <div class="metrics">
+      <div class="metric">
+        <div class="lbl">NOTE GOOGLE</div>
+        <div class="val" id="mNote">—</div>
+        <div class="sub" id="mNoteSub">—</div>
+      </div>
+      <div class="metric">
+        <div class="lbl">AVIS TOTAUX</div>
+        <div class="val" id="mAvis">—</div>
+        <div class="sub" id="mAvisSub">—</div>
+      </div>
+      <div class="metric">
+        <div class="lbl">COMPLÉTUDE</div>
+        <div class="val" id="mComp">—</div>
+        <div class="sub" id="mCompSub">—</div>
+      </div>
+    </div>
+
+    <!-- Critères détaillés -->
+    <div class="criteria-card">
+      <div class="criteria-head">
+        <span>ANALYSE DÉTAILLÉE</span>
+        <span id="criteriaCount">—</span>
+      </div>
+      <div id="criteriaList"></div>
+    </div>
+
+    <!-- Recommandations prioritaires -->
+    <div class="reco-card">
+      <div class="reco-head">ACTIONS PRIORITAIRES</div>
+      <div id="recoList"></div>
+    </div>
+
+    <!-- CTA Prospection -->
+    <div class="cta-block">
+      <div>
+        <h3 id="ctaTitle">—</h3>
+        <p id="ctaSubtitle">Optimisation continue · Réponses aux avis · Rapport mensuel</p>
+      </div>
+      <button class="btn-cta" id="btnProspect" onclick="copyProspectEmail()">
+        Copier l'email de prospection
+      </button>
+    </div>
+
+    <!-- Export -->
+    <button class="btn-export" onclick="exportReport()">
+      ↓ Télécharger le rapport PDF
+    </button>
+
+  </div><!-- /results -->
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════════
+// DONNÉES DE DÉMONSTRATION
+// ═══════════════════════════════════════════
+const DEMOS = {
+  bad: {
+    name: "Brasserie des Artistes", city: "Bordeaux",
+    data: { name:"Brasserie des Artistes", address:"14 Rue Sainte-Catherine, 33000 Bordeaux",
+      rating:3.4, reviewCount:18, hasPhone:true, hasWebsite:false, hasHours:false,
+      hoursUpToDate:false, photoCount:3, hasMenu:false, ownerReplies:0,
+      lastReviewDays:55, hasPosts:false, categoryOk:false }
+  },
+  mid: {
+    name: "Studio Coiff'", city: "Nantes",
+    data: { name:"Studio Coiff'", address:"8 Allée du Commandant Charcot, 44000 Nantes",
+      rating:4.1, reviewCount:54, hasPhone:true, hasWebsite:true, hasHours:true,
+      hoursUpToDate:false, photoCount:9, hasMenu:true, ownerReplies:4,
+      lastReviewDays:12, hasPosts:false, categoryOk:true }
+  },
+  good: {
+    name: "Plomberie Martin & Fils", city: "Toulouse",
+    data: { name:"Plomberie Martin & Fils", address:"22 Chemin de Gabardie, 31200 Toulouse",
+      rating:4.8, reviewCount:147, hasPhone:true, hasWebsite:true, hasHours:true,
+      hoursUpToDate:true, photoCount:21, hasMenu:true, ownerReplies:15,
+      lastReviewDays:2, hasPosts:true, categoryOk:true }
+  }
+};
+
+let currentData = null;
+let apiKey = localStorage.getItem('gmaps_api_key') || '';
+
+if (apiKey) {
+  document.getElementById('apiKeyInput').value = '••••••••••••';
+}
+
+function saveKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if (k && !k.startsWith('•')) {
+    localStorage.setItem('gmaps_api_key', k);
+    apiKey = k;
+    alert('Clé API enregistrée ! Les prochaines analyses utiliseront Google Places.');
+  }
+}
+
+// ═══════════════════════════════════════════
+// ANALYSE
+// ═══════════════════════════════════════════
+function loadDemo(type) {
+  const demo = DEMOS[type];
+  document.getElementById('placeName').value = demo.name;
+  document.getElementById('placeCity').value = demo.city;
+  setLoading(true);
+  hideResults();
+  setTimeout(() => runAnalysis(demo.data), 1200);
+}
+
+async function analyzePlace() {
+  const name = document.getElementById('placeName').value.trim();
+  const city = document.getElementById('placeCity').value.trim();
+  if (!name || !city) { showError('Merci de renseigner le nom du commerce et la ville.'); return; }
+  showError('');
+  setLoading(true);
+  hideResults();
+
+  if (apiKey && !apiKey.startsWith('•')) {
+    try {
+      await fetchGoogleData(name, city);
+      return;
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  // Mode démo avec génération pseudo-aléatoire
+  setTimeout(() => {
+    runAnalysis(generateMock(name, city));
+  }, 1400);
+}
+
+async function fetchGoogleData(name, city) {
+  const query = `${name} ${city}`;
+  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(query)}&inputtype=textquery&fields=place_id,name,rating,user_ratings_total,formatted_address&key=${apiKey}`;
+  
+  // Note: nécessite un backend proxy en prod (CORS)
+  // En local sur file:// ça marche directement
+  const r = await fetch(url);
+  const json = await r.json();
+  
+  if (!json.candidates || !json.candidates.length) {
+    setLoading(false);
+    showError('Commerce introuvable. Vérifiez le nom et la ville.');
+    return;
+  }
+  
+  const place = json.candidates[0];
+  const detailUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&fields=name,formatted_address,rating,user_ratings_total,formatted_phone_number,website,opening_hours,photos,reviews,url&key=${apiKey}`;
+  const dr = await fetch(detailUrl);
+  const detail = await dr.json();
+  const p = detail.result;
+  
+  const data = {
+    name: p.name,
+    address: p.formatted_address || '',
+    rating: p.rating || 0,
+    reviewCount: p.user_ratings_total || 0,
+    hasPhone: !!p.formatted_phone_number,
+    hasWebsite: !!p.website,
+    hasHours: !!(p.opening_hours && p.opening_hours.weekday_text && p.opening_hours.weekday_text.length),
+    hoursUpToDate: true,
+    photoCount: p.photos ? p.photos.length : 0,
+    hasMenu: false,
+    ownerReplies: p.reviews ? p.reviews.filter(r => r.author_name).length : 0,
+    lastReviewDays: p.reviews && p.reviews.length ? Math.floor((Date.now() - p.reviews[0].time*1000) / 86400000) : 99,
+    hasPosts: false,
+    categoryOk: true
+  };
+  
+  setLoading(false);
+  runAnalysis(data);
+}
+
+function generateMock(name, city) {
+  const seed = (name + city).split('').reduce((a,c) => a + c.charCodeAt(0), 0);
+  const rnd = (n) => ((seed * 1664525 + n * 1013904223) & 0x7fffffff) % 100;
+  return {
+    name, address:`${rnd(1) % 99 + 1} Rue ${['de la Paix','Victor Hugo','Gambetta','du Commerce','de la République'][rnd(2)%5]}, ${city}`,
+    rating: +(2.5 + (rnd(3) / 100) * 2.5).toFixed(1),
+    reviewCount: 5 + rnd(4) % 120,
+    hasPhone: rnd(5) > 10,
+    hasWebsite: rnd(6) > 30,
+    hasHours: rnd(7) > 15,
+    hoursUpToDate: rnd(8) > 40,
+    photoCount: rnd(9) % 28,
+    hasMenu: rnd(10) > 55,
+    ownerReplies: rnd(11) % 12,
+    lastReviewDays: 1 + rnd(12) % 80,
+    hasPosts: rnd(13) > 75,
+    categoryOk: rnd(14) > 45
+  };
+}
+
+// ═══════════════════════════════════════════
+// CALCUL DU SCORE
+// ═══════════════════════════════════════════
+function computeScore(d) {
+  const C = [];
+  const add = (label, detail, max, status) => {
+    const pts = status === 'ok' ? max : status === 'warn' ? Math.round(max*0.5) : 0;
+    C.push({ label, detail, max, pts, status });
+  };
+
+  // Note (20pts)
+  add('Note Google',
+    d.rating >= 4.3 ? `${d.rating}/5 — Excellente note` : d.rating >= 3.5 ? `${d.rating}/5 — Peut mieux faire` : `${d.rating}/5 — Note insuffisante, frein à la conversion`,
+    20, d.rating >= 4.3 ? 'ok' : d.rating >= 3.5 ? 'warn' : 'bad');
+
+  // Volume avis (15pts)
+  add('Volume d\'avis',
+    d.reviewCount >= 100 ? `${d.reviewCount} avis — Très bon volume` : d.reviewCount >= 30 ? `${d.reviewCount} avis — Volume correct, continuez à en solliciter` : `Seulement ${d.reviewCount} avis — Très insuffisant pour le SEO local`,
+    15, d.reviewCount >= 100 ? 'ok' : d.reviewCount >= 30 ? 'warn' : 'bad');
+
+  // Photos (15pts)
+  add('Photos',
+    d.photoCount >= 15 ? `${d.photoCount} photos — Excellent` : d.photoCount >= 8 ? `${d.photoCount} photos — En dessous des 15 recommandées` : `${d.photoCount} photo(s) — Très insuffisant, impact direct sur les clics`,
+    15, d.photoCount >= 15 ? 'ok' : d.photoCount >= 8 ? 'warn' : 'bad');
+
+  // Réponses avis (15pts)
+  add('Réponses aux avis',
+    d.ownerReplies >= 8 ? `Propriétaire très réactif (${d.ownerReplies} réponses)` : d.ownerReplies >= 3 ? `Taux de réponse faible (${d.ownerReplies} réponses)` : `Ne répond pas aux avis — Très négatif pour l'image`,
+    15, d.ownerReplies >= 8 ? 'ok' : d.ownerReplies >= 3 ? 'warn' : 'bad');
+
+  // Fraîcheur avis (10pts)
+  add('Fraîcheur des avis',
+    d.lastReviewDays <= 10 ? `Dernier avis il y a ${d.lastReviewDays}j — Excellent` : d.lastReviewDays <= 21 ? `Dernier avis il y a ${d.lastReviewDays}j — Acceptable` : `Dernier avis il y a ${d.lastReviewDays}j — Trop ancien`,
+    10, d.lastReviewDays <= 10 ? 'ok' : d.lastReviewDays <= 21 ? 'warn' : 'bad');
+
+  // Coordonnées (10pts)
+  add('Coordonnées complètes',
+    d.hasPhone && d.hasWebsite ? 'Téléphone + site web présents' : d.hasPhone ? 'Site web manquant — Perd de la crédibilité' : 'Téléphone et site web manquants',
+    10, d.hasPhone && d.hasWebsite ? 'ok' : d.hasPhone ? 'warn' : 'bad');
+
+  // Horaires (10pts)
+  add('Horaires',
+    d.hasHours && d.hoursUpToDate ? 'Horaires complets et à jour' : d.hasHours ? 'Horaires présents mais peut-être obsolètes' : 'Aucun horaire — 1ère cause d\'abandon client',
+    10, d.hasHours && d.hoursUpToDate ? 'ok' : d.hasHours ? 'warn' : 'bad');
+
+  // Menu/services (5pts)
+  add('Menu / Services listés',
+    d.hasMenu ? 'Menu ou liste de services présent' : 'Aucun menu/service — Opportunité manquée',
+    5, d.hasMenu ? 'ok' : 'bad');
+
+  const total = C.reduce((a,c) => a + c.pts, 0);
+  return { score: total, criteria: C };
+}
+
+// ═══════════════════════════════════════════
+// AFFICHAGE
+// ═══════════════════════════════════════════
+function runAnalysis(data) {
+  currentData = data;
+  setLoading(false);
+
+  const { score, criteria } = computeScore(data);
+  const problems = criteria.filter(c => c.status !== 'ok');
+
+  // Score ring
+  document.getElementById('scoreNum').textContent = score;
+  const arc = document.getElementById('scoreArc');
+  const circumference = 251;
+  setTimeout(() => {
+    arc.style.strokeDashoffset = circumference - (circumference * score / 100);
+    arc.style.stroke = score >= 70 ? '#1D9E75' : score >= 45 ? '#EF9F27' : '#E24B4A';
+  }, 80);
+
+  // Infos commerce
+  document.getElementById('rName').textContent = data.name;
+  document.getElementById('rAddr').textContent = data.address;
+
+  // Verdict
+  const vp = document.getElementById('verdictPill');
+  if (score >= 70) { vp.textContent = 'Fiche bien optimisée'; vp.className = 'verdict-pill v-good'; }
+  else if (score >= 45) { vp.textContent = 'Optimisation nécessaire'; vp.className = 'verdict-pill v-mid'; }
+  else { vp.textContent = 'Fiche très mal optimisée'; vp.className = 'verdict-pill v-bad'; }
+
+  // Métriques
+  document.getElementById('mNote').textContent = data.rating + '★';
+  document.getElementById('mNoteSub').textContent = data.rating >= 4.3 ? 'Excellente' : data.rating >= 3.5 ? 'Passable' : 'Insuffisante';
+  document.getElementById('mAvis').textContent = data.reviewCount;
+  document.getElementById('mAvisSub').textContent = data.reviewCount >= 100 ? 'Très bon' : data.reviewCount >= 30 ? 'Correct' : 'Insuffisant';
+  const pctOk = Math.round(criteria.filter(c => c.status === 'ok').length / criteria.length * 100);
+  document.getElementById('mComp').textContent = pctOk + '%';
+  document.getElementById('mCompSub').textContent = pctOk >= 75 ? 'Bonne complétude' : 'À compléter';
+
+  // Critères
+  document.getElementById('criteriaCount').textContent = `${criteria.filter(c=>c.status==='ok').length}/${criteria.length} critères OK`;
+  document.getElementById('criteriaList').innerHTML = criteria.map(c => `
+    <div class="crit-row">
+      <div class="crit-ico ${c.status==='ok'?'ico-ok':c.status==='warn'?'ico-warn':'ico-bad'}">
+        ${c.status==='ok' ? '✓' : c.status==='warn' ? '!' : '✗'}
+      </div>
+      <div class="crit-body">
+        <div class="crit-title">${c.label}</div>
+        <div class="crit-detail">${c.detail}</div>
+      </div>
+      <div class="crit-pts">${c.pts}/${c.max}</div>
+    </div>
+  `).join('');
+
+  // Recommandations prioritaires (top 3 problèmes)
+  const topProblems = problems.slice(0, 4);
+  const recoActions = {
+    'Note Google': { action: 'Mettre en place une stratégie de demande d\'avis : envoyer un SMS avec lien Google après chaque prestation.', gain: '+ jusqu\'à 20 pts' },
+    'Volume d\'avis': { action: 'Solliciter activement les clients satisfaits via QR code en caisse ou SMS automatique.', gain: '+ jusqu\'à 15 pts' },
+    'Photos': { action: 'Ajouter 15 photos haute qualité : extérieur, intérieur, équipe, produits/plats.', gain: '+ jusqu\'à 15 pts' },
+    'Réponses aux avis': { action: 'Répondre à tous les avis non-traités dans les 48h, en commençant par les négatifs.', gain: '+ jusqu\'à 15 pts' },
+    'Fraîcheur des avis': { action: 'Relancer la collecte d\'avis — viser 2 avis minimum par semaine.', gain: '+ jusqu\'à 10 pts' },
+    'Coordonnées complètes': { action: 'Ajouter le site web et vérifier le numéro de téléphone sur la fiche GMB.', gain: '+ jusqu\'à 10 pts' },
+    'Horaires': { action: 'Renseigner les horaires complets et les mettre à jour (fériés, vacances).', gain: '+ jusqu\'à 10 pts' },
+    'Menu / Services listés': { action: 'Ajouter un menu ou une liste de services directement sur la fiche.', gain: '+ 5 pts' },
+  };
+  document.getElementById('recoList').innerHTML = topProblems.length ? topProblems.map((c, i) => {
+    const reco = recoActions[c.label] || { action: 'Optimiser ce critère.', gain: '' };
+    return `<div class="reco-item">
+      <div class="reco-num">${i+1}</div>
+      <div>
+        <div class="reco-text"><strong>${c.label}</strong> — ${reco.action}</div>
+        <div class="reco-gain">${reco.gain}</div>
+      </div>
+    </div>`;
+  }).join('') : '<div class="reco-item"><div class="reco-num">✓</div><div class="reco-text">Fiche optimisée. Maintenir le cap !</div></div>';
+
+  // CTA
+  document.getElementById('ctaTitle').textContent = problems.length > 3
+    ? `${problems.length} problèmes détectés — ${data.name} perd des clients`
+    : score >= 70 ? 'Fiche solide — maintenons-la au sommet'
+    : 'Quelques optimisations feront la différence';
+
+  // Show
+  document.getElementById('results').classList.add('show');
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function setLoading(v) {
+  document.getElementById('loading').className = 'loading' + (v ? ' show' : '');
+  document.getElementById('btnAnalyze').disabled = v;
+}
+function hideResults() { document.getElementById('results').classList.remove('show'); }
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.className = 'error-msg' + (msg ? ' show' : '');
+}
+
+// ═══════════════════════════════════════════
+// EMAIL DE PROSPECTION
+// ═══════════════════════════════════════════
+function copyProspectEmail() {
+  if (!currentData) return;
+  const { score, criteria } = computeScore(currentData);
+  const d = currentData;
+  const problems = criteria.filter(c => c.status !== 'ok').map(c => `- ${c.label} : ${c.detail}`).join('\n');
+
+  const email = `Objet : Votre fiche Google Maps — Rapport gratuit (score : ${score}/100)
+
+Bonjour,
+
+Je me permets de vous contacter au sujet de votre présence sur Google Maps.
+
+J'ai réalisé un audit gratuit de votre fiche "${d.name}" et voici ce que j'ai trouvé :
+
+📊 Score de visibilité : ${score}/100
+📍 ${d.address}
+
+Points à améliorer :
+${problems}
+
+Ces problèmes ont un impact direct sur votre classement local et le nombre de clients qui vous trouvent sur Google Maps.
+
+Je serais ravi de vous présenter en 15 minutes comment nous pouvons améliorer votre score à plus de 80/100 et augmenter votre visibilité locale.
+
+Seriez-vous disponible cette semaine pour un appel rapide ?
+
+Cordialement,
+[Votre nom]
+[Votre agence]
+[Téléphone]`;
+
+  navigator.clipboard.writeText(email).then(() => {
+    const btn = document.getElementById('btnProspect');
+    btn.textContent = '✓ Copié !';
+    setTimeout(() => { btn.textContent = 'Copier l\'email de prospection'; }, 2500);
+  });
+}
+
+// ═══════════════════════════════════════════
+// EXPORT (impression navigateur → PDF)
+// ═══════════════════════════════════════════
+function exportReport() {
+  if (!currentData) return;
+  window.print();
+}
+
+// Enter key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') analyzePlace();
+});
+</script>
+
+<style>
+@media print {
+  .search-card, .demo-row, .api-notice, .api-key-row, .btn-primary,
+  .btn-cta, .btn-export, .cta-block button { display: none !important; }
+  .cta-block { background: #f5f5f5 !important; color: #333 !important; }
+  body { background: white; color: black; }
+}
+</style>
+
+</body>
+</html>
