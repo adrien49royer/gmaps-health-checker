@@ -4,4 +4,169 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Votre fiche Google vous fait perdre des clients | G-Maps Health Checker</title>
-<meta name="description" content="Auditez gratuitement votre fiche Google Maps en 30 secondes. Score de visibilité locale, diagnostic complet, et recommandations concrètes."
+<meta name="description" content="Auditez gratuitement votre fiche Google Maps en 30 secondes. Score de visibilite locale, diagnostic complet, recommandations concretes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F8F6F1;--surface:#fff;--text:#1C1C1A;--muted:#7A7870;--accent:#1D9E75;--ad:#0F6E56;--warn:#E24B4A;--border:rgba(0,0,0,.08);--bs:rgba(0,0,0,.15);--r:14px;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:100}
+.nav-logo{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--muted);text-decoration:none}
+.nav-cta{font-size:13px;font-weight:500;color:var(--ad);text-decoration:none;padding:7px 16px;border:1px solid var(--accent);border-radius:8px;transition:background .15s}
+.nav-cta:hover{background:rgba(29,158,117,.08)}
+.hero{max-width:780px;margin:0 auto;padding:5rem 2rem 3rem;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--warn);background:rgba(226,75,74,.08);border:1px solid rgba(226,75,74,.2);padding:5px 14px;border-radius:20px;margin-bottom:1.75rem}
+.badge::before{content:'';width:6px;height:6px;background:var(--warn);border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+h1{font-family:var(--serif);font-size:clamp(2.4rem,6vw,3.8rem);font-weight:400;line-height:1.12;letter-spacing:-.01em;margin-bottom:1.25rem}
+h1 em{font-style:italic;color:var(--accent)}
+.sub{font-size:17px;color:var(--muted);max-width:520px;margin:0 auto 2.5rem;line-height:1.65}
+.card{background:var(--surface);border:1px solid var(--bs);border-radius:var(--r);padding:2rem;max-width:480px;margin:0 auto;text-align:left}
+.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:8px}
+.row{display:flex;gap:10px;margin-bottom:12px}
+input{flex:1;padding:12px 16px;border:1px solid var(--bs);border-radius:9px;font-size:14px;font-family:var(--sans);background:var(--bg);color:var(--text);transition:border-color .2s,box-shadow .2s;outline:none}
+input::placeholder{color:#B0ADA5}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(29,158,117,.12)}
+.btn{width:100%;padding:14px;background:var(--text);color:#fff;border:none;border-radius:9px;font-size:15px;font-family:var(--sans);font-weight:500;cursor:pointer;transition:background .2s,transform .1s}
+.btn:hover{background:#2d2d2b}
+.btn:active{transform:scale(.99)}
+.note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+.ok{display:none;text-align:center;padding:1.5rem}
+.ok .ic{width:44px;height:44px;background:rgba(29,158,117,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:20px}
+.ok h3{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:.4rem}
+.ok p{font-size:14px;color:var(--muted)}
+.demo-lnk{text-align:center;margin-top:1.5rem}
+.demo-lnk a{font-size:13px;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.demo-lnk a:hover{color:var(--text)}
+.proof{max-width:900px;margin:4rem auto 0;padding:0 2rem 5rem}
+.pt{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);margin-bottom:2.5rem}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:3rem}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;display:flex;align-items:center;gap:1rem}
+.sr{position:relative;width:60px;height:60px;flex-shrink:0}
+.sr svg{transform:rotate(-90deg);display:block}
+.rl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:15px;font-weight:500}
+.bt{font-size:13px;font-weight:500;margin-bottom:3px}
+.bv{font-size:11px;font-family:var(--mono);padding:2px 8px;border-radius:4px;display:inline-block}
+.vb{background:rgba(226,75,74,.1);color:#A32D2D}
+.vm{background:rgba(186,117,23,.1);color:#854F0B}
+.vg{background:rgba(29,158,117,.1);color:var(--ad)}
+.sr2{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center}
+.si{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem 1rem}
+.sn{font-family:var(--serif);font-size:2.2rem;font-weight:400;color:var(--accent);display:block;line-height:1;margin-bottom:6px}
+.st{font-size:13px;color:var(--muted);line-height:1.4}
+.cs{max-width:780px;margin:0 auto;padding:0 2rem 5rem}
+.ct{font-family:var(--serif);font-size:1.8rem;font-weight:400;margin-bottom:1.5rem;text-align:center}
+.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ci{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:10px}
+.ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px}
+.cn{font-size:13px;font-weight:500;margin-bottom:2px}
+.cd{font-size:12px;color:var(--muted)}
+.fc{background:var(--text);color:#fff;padding:5rem 2rem;text-align:center}
+.fc h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;margin-bottom:1rem}
+.fc>p{font-size:16px;opacity:.6;margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto}
+.fc input{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+.fc input::placeholder{color:rgba(255,255,255,.35)}
+.fc input:focus{border-color:var(--accent)}
+.fc .btn{background:var(--accent)}
+.fc .btn:hover{background:var(--ad)}
+footer{background:var(--text);color:rgba(255,255,255,.35);text-align:center;padding:1.5rem;font-size:12px;border-top:1px solid rgba(255,255,255,.08)}
+footer a{color:rgba(255,255,255,.5);text-decoration:none}
+@media(max-width:640px){.hero{padding:3rem 1.25rem 2rem}.sg,.sr2,.cg{grid-template-columns:1fr}.proof,.cs{padding-left:1.25rem;padding-right:1.25rem}.nav{padding:1rem 1.25rem}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .6s ease both}
+.badge{animation-delay:.05s}h1{animation-delay:.15s}.sub{animation-delay:.25s}.card{animation-delay:.35s}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="#">G-MAPS HEALTH CHECKER</a>
+  <a class="nav-cta" href="https://adrien49royer.github.io/gmaps-health-checker/" target="_blank">Tester l'outil</a>
+</nav>
+<section class="hero">
+  <div class="badge">74% des fiches Google ont des problemes critiques</div>
+  <h1>Votre fiche Google<br>vous fait <em>perdre des clients</em><br>sans que vous le sachiez.</h1>
+  <p class="sub">Recevez un audit gratuit de votre fiche Google Maps : score de visibilite, points bloquants, et les 3 actions prioritaires pour remonter.</p>
+  <div class="card" id="hcard">
+    <div id="hform">
+      <label class="lbl">NOM DE VOTRE COMMERCE</label>
+      <div class="row">
+        <input type="text" id="hn" placeholder="ex: Le Bistrot du Port"/>
+        <input type="text" id="hc" placeholder="Ville" style="flex:0 0 120px"/>
+      </div>
+      <label class="lbl">VOTRE EMAIL</label>
+      <div style="margin-bottom:14px"><input type="email" id="he" placeholder="vous@votrecommerce.fr" style="width:100%"/></div>
+      <button class="btn" id="hsub" onclick="sh()">Recevoir mon audit gratuit</button>
+      <p class="note">Gratuit, sans engagement. Reponse sous 24h.</p>
+    </div>
+    <div class="ok" id="hok">
+      <div class="ic">V</div>
+      <h3>C'est note !</h3>
+      <p>Vous recevrez votre audit sous 24h.</p>
+    </div>
+  </div>
+  <div class="demo-lnk">
+    <a href="https://adrien49royer.github.io/gmaps-health-checker/" target="_blank">Tester l'outil directement sans email -></a>
+  </div>
+</section>
+<section class="proof">
+  <p class="pt">EXEMPLES DE FICHES ANALYSEES</p>
+  <div class="sg">
+    <div class="sc"><div class="sr"><svg width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="#F0F0EC" stroke-width="5"/><circle cx="30" cy="30" r="24" fill="none" stroke="#E24B4A" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="105.6"/></svg><div class="rl" style="color:#E24B4A">30</div></div><div><div class="bt">Brasserie - Bordeaux</div><span class="bv vb">Fiche critique</span></div></div>
+    <div class="sc"><div class="sr"><svg width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="#F0F0EC" stroke-width="5"/><circle cx="30" cy="30" r="24" fill="none" stroke="#EF9F27" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="60.3"/></svg><div class="rl" style="color:#EF9F27">60</div></div><div><div class="bt">Coiffeur - Nantes</div><span class="bv vm">A optimiser</span></div></div>
+    <div class="sc"><div class="sr"><svg width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="#F0F0EC" stroke-width="5"/><circle cx="30" cy="30" r="24" fill="none" stroke="#1D9E75" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="15"/></svg><div class="rl" style="color:#1D9E75">90</div></div><div><div class="bt">Plombier - Toulouse</div><span class="bv vg">Bien optimise</span></div></div>
+  </div>
+  <div class="sr2">
+    <div class="si"><span class="sn">8</span><span class="st">criteres analyses sur votre fiche Google</span></div>
+    <div class="si"><span class="sn">30s</span><span class="st">pour obtenir votre score complet</span></div>
+    <div class="si"><span class="sn">100%</span><span class="st">gratuit, sans compte requis</span></div>
+  </div>
+</section>
+<section class="cs">
+  <h2 class="ct">Ce qu'on analyse sur votre fiche</h2>
+  <div class="cg">
+    <div class="ci"><div class="ico vg">*</div><div><div class="cn">Note Google</div><div class="cd">En dessous de 4.3, vous perdez des clics face a la concurrence</div></div></div>
+    <div class="ci"><div class="ico vb">!</div><div><div class="cn">Volume d'avis</div><div class="cd">Moins de 30 avis = signal faible pour l'algorithme Google Local</div></div></div>
+    <div class="ci"><div class="ico vm">#</div><div><div class="cn">Photos</div><div class="cd">Les fiches avec 15+ photos recoivent 3x plus de demandes d'itineraire</div></div></div>
+    <div class="ci"><div class="ico vg">R</div><div><div class="cn">Reponses aux avis</div><div class="cd">Repondre aux avis augmente la confiance et ameliore le classement</div></div></div>
+    <div class="ci"><div class="ico vb">~</div><div><div class="cn">Fraicheur des avis</div><div class="cd">Un dernier avis vieux de +30 jours penalise votre visibilite locale</div></div></div>
+    <div class="ci"><div class="ico vm">H</div><div><div class="cn">Coordonnees et horaires</div><div class="cd">1ere cause d'abandon : horaires manquants ou site web absent</div></div></div>
+  </div>
+</section>
+<section class="fc" id="fc">
+  <h2>Pret a savoir ou vous en etes ?</h2>
+  <p>Entrez votre email, on analyse votre fiche et on vous envoie le rapport complet gratuitement.</p>
+  <div style="max-width:420px;margin:0 auto">
+    <div id="fform">
+      <div style="margin-bottom:10px">
+        <input type="text" id="fn" placeholder="Nom de votre commerce" style="width:100%;margin-bottom:10px"/>
+        <input type="email" id="fe" placeholder="Votre email" style="width:100%"/>
+      </div>
+      <button class="btn" id="fsub" onclick="sf()">Recevoir mon audit gratuit</button>
+      <p class="note" style="color:rgba(255,255,255,.4)">Gratuit - Sans engagement - Reponse sous 24h</p>
+    </div>
+    <div class="ok" id="fok" style="color:#fff">
+      <div class="ic" style="background:rgba(29,158,117,.25)">V</div>
+      <h3 style="color:#fff">Parfait !</h3>
+      <p style="color:rgba(255,255,255,.6)">On revient vers vous sous 24h avec votre rapport.</p>
+    </div>
+  </div>
+</section>
+<footer><p>2025 AVANTI - <a href="https://adrien49royer.github.io/gmaps-health-checker/" target="_blank">Tester l'outil en direct</a></p></footer>
+<script>
+const FS='https://formspree.io/f/xzzbeqgn';
+async function sub(n,c,e,bid,fid,sid){
+  if(!e||!e.includes('@'))return;
+  const b=document.getElementById(bid);
+  b.textContent='Envoi...';b.style.opacity='.7';b.style.pointerEvents='none';
+  try{await fetch(FS,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({commerce:n,ville:c,email:e})});}catch(x){}
+  document.getElementById(fid).style.display='none';
+  document.getElementById(sid).style.display='block';
+}
+function sh(){sub(hn.value,hc.value,he.value,'hsub','hform','hok');}
+function sf(){sub(fn.value,'',fe.value,'fsub','fform','fok');}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){if(document.activeElement.closest('#hcard'))sh();if(document.activeElement.closest('#fc'))sf();}});
+</script>
+</body>
+</html>
