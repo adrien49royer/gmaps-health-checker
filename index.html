@@ -393,9 +393,9 @@
 
   <!-- HEADER -->
   <div class="header">
-    <span class="badge">G-MAPS HEALTH CHECKER Â· v1.0</span>
+    <span class="badge">G-MAPS HEALTH CHECKER · v1.0</span>
     <h1>Auditez la fiche Google<br>de n'importe quel commerce</h1>
-    <p>Score de visibilitÃ© locale Â· Diagnostic complet Â· Rapport PDF en un clic</p>
+    <p>Score de visibilité locale · Diagnostic complet · Rapport PDF en un clic</p>
   </div>
 
   <!-- SEARCH -->
@@ -409,29 +409,29 @@
         <label>VILLE</label>
         <input type="text" id="placeCity" placeholder="ex: Lyon" />
       </div>
-      <button class="btn-primary" id="btnAnalyze" onclick="analyzePlace()">Analyser â</button>
+      <button class="btn-primary" id="btnAnalyze" onclick="analyzePlace()">Analyser →</button>
     </div>
 
-    <!-- ClÃ© API -->
+    <!-- Clé API -->
     <div class="api-notice">
       <div>
-        <strong>Mode dÃ©mo actif.</strong> Pour des donnÃ©es rÃ©elles, entrez votre clÃ© Google Places API
-        (gratuite jusqu'Ã  ~1000 req/mois) :
+        <strong>Mode démo actif.</strong> Pour des données réelles, entrez votre clé Google Places API
+        (gratuite jusqu'à ~1000 req/mois) :
         <div class="api-key-row">
           <input type="password" id="apiKeyInput" placeholder="AIza..." />
           <button class="btn-save" onclick="saveKey()">Enregistrer</button>
         </div>
         <div style="margin-top:6px; font-size:11px;">
           <a href="https://console.cloud.google.com/apis/library/places-backend.googleapis.com" target="_blank" style="color:var(--warn-text);">
-            â Obtenir une clÃ© gratuite sur Google Cloud Console
+            → Obtenir une clé gratuite sur Google Cloud Console
           </a>
         </div>
       </div>
     </div>
 
-    <!-- DÃ©mos -->
+    <!-- Démos -->
     <div class="demo-row">
-      <span class="demo-label">DÃ©mos :</span>
+      <span class="demo-label">Démos :</span>
       <div class="demo-pill" onclick="loadDemo('bad')">Restaurant (mauvaise fiche)</div>
       <div class="demo-pill" onclick="loadDemo('mid')">Coiffeur (fiche moyenne)</div>
       <div class="demo-pill" onclick="loadDemo('good')">Plombier (bonne fiche)</div>
@@ -447,7 +447,7 @@
     Analyse en cours...
   </div>
 
-  <!-- RÃSULTATS -->
+  <!-- RÉSULTATS -->
   <div class="results" id="results">
 
     <!-- Score -->
@@ -463,41 +463,41 @@
             style="transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1), stroke 0.4s;"/>
         </svg>
         <div class="ring-num">
-          <span class="n" id="scoreNum">â</span>
+          <span class="n" id="scoreNum">—</span>
           <span class="s">/100</span>
         </div>
       </div>
       <div class="score-meta">
-        <h2 id="rName">â</h2>
-        <div class="addr" id="rAddr">â</div>
-        <span class="verdict-pill" id="verdictPill">â</span>
+        <h2 id="rName">—</h2>
+        <div class="addr" id="rAddr">—</div>
+        <span class="verdict-pill" id="verdictPill">—</span>
       </div>
     </div>
 
-    <!-- MÃ©triques clÃ©s -->
+    <!-- Métriques clés -->
     <div class="metrics">
       <div class="metric">
         <div class="lbl">NOTE GOOGLE</div>
-        <div class="val" id="mNote">â</div>
-        <div class="sub" id="mNoteSub">â</div>
+        <div class="val" id="mNote">—</div>
+        <div class="sub" id="mNoteSub">—</div>
       </div>
       <div class="metric">
         <div class="lbl">AVIS TOTAUX</div>
-        <div class="val" id="mAvis">â</div>
-        <div class="sub" id="mAvisSub">â</div>
+        <div class="val" id="mAvis">—</div>
+        <div class="sub" id="mAvisSub">—</div>
       </div>
       <div class="metric">
-        <div class="lbl">COMPLÃTUDE</div>
-        <div class="val" id="mComp">â</div>
-        <div class="sub" id="mCompSub">â</div>
+        <div class="lbl">COMPLÉTUDE</div>
+        <div class="val" id="mComp">—</div>
+        <div class="sub" id="mCompSub">—</div>
       </div>
     </div>
 
-    <!-- CritÃ¨res dÃ©taillÃ©s -->
+    <!-- Critères détaillés -->
     <div class="criteria-card">
       <div class="criteria-head">
-        <span>ANALYSE DÃTAILLÃE</span>
-        <span id="criteriaCount">â</span>
+        <span>ANALYSE DÉTAILLÉE</span>
+        <span id="criteriaCount">—</span>
       </div>
       <div id="criteriaList"></div>
     </div>
@@ -511,8 +511,8 @@
     <!-- CTA Prospection -->
     <div class="cta-block">
       <div>
-        <h3 id="ctaTitle">â</h3>
-        <p id="ctaSubtitle">Optimisation continue Â· RÃ©ponses aux avis Â· Rapport mensuel</p>
+        <h3 id="ctaTitle">—</h3>
+        <p id="ctaSubtitle">Optimisation continue · Réponses aux avis · Rapport mensuel</p>
       </div>
       <button class="btn-cta" id="btnProspect" onclick="copyProspectEmail()">
         Copier l'email de prospection
@@ -521,16 +521,16 @@
 
     <!-- Export -->
     <button class="btn-export" onclick="exportReport()">
-      â TÃ©lÃ©charger le rapport PDF
+      ↓ Télécharger le rapport PDF
     </button>
 
   </div><!-- /results -->
 </div><!-- /container -->
 
 <script>
-// âââââââââââââââââââââââââââââââââââââââââââ
-// DONNÃES DE DÃMONSTRATION
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
+// DONNÉES DE DÉMONSTRATION
+// ═══════════════════════════════════════════
 const DEMOS = {
   bad: {
     name: "Brasserie des Artistes", city: "Bordeaux",
@@ -541,7 +541,7 @@ const DEMOS = {
   },
   mid: {
     name: "Studio Coiff'", city: "Nantes",
-    data: { name:"Studio Coiff'", address:"8 AllÃ©e du Commandant Charcot, 44000 Nantes",
+    data: { name:"Studio Coiff'", address:"8 Allée du Commandant Charcot, 44000 Nantes",
       rating:4.1, reviewCount:54, hasPhone:true, hasWebsite:true, hasHours:true,
       hoursUpToDate:false, photoCount:9, hasMenu:true, ownerReplies:4,
       lastReviewDays:12, hasPosts:false, categoryOk:true }
@@ -559,21 +559,21 @@ let currentData = null;
 let apiKey = localStorage.getItem('gmaps_api_key') || '';
 
 if (apiKey) {
-  document.getElementById('apiKeyInput').value = 'â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢';
+  document.getElementById('apiKeyInput').value = '••••••••••••';
 }
 
 function saveKey() {
   const k = document.getElementById('apiKeyInput').value.trim();
-  if (k && !k.startsWith('â¢')) {
+  if (k && !k.startsWith('•')) {
     localStorage.setItem('gmaps_api_key', k);
     apiKey = k;
-    alert('ClÃ© API enregistrÃ©e ! Les prochaines analyses utiliseront Google Places.');
+    alert('Clé API enregistrée ! Les prochaines analyses utiliseront Google Places.');
   }
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 // ANALYSE
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 function loadDemo(type) {
   const demo = DEMOS[type];
   document.getElementById('placeName').value = demo.name;
@@ -591,7 +591,7 @@ async function analyzePlace() {
   setLoading(true);
   hideResults();
 
-  if (apiKey && !apiKey.startsWith('â¢')) {
+  if (apiKey && !apiKey.startsWith('•')) {
     try {
       await fetchGoogleData(name, city);
       return;
@@ -600,7 +600,7 @@ async function analyzePlace() {
     }
   }
 
-  // Mode dÃ©mo avec gÃ©nÃ©ration pseudo-alÃ©atoire
+  // Mode démo avec génération pseudo-aléatoire
   setTimeout(() => {
     runAnalysis(generateMock(name, city));
   }, 1400);
@@ -610,14 +610,14 @@ async function fetchGoogleData(name, city) {
   const query = `${name} ${city}`;
   const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(query)}&inputtype=textquery&fields=place_id,name,rating,user_ratings_total,formatted_address&key=${apiKey}`;
   
-  // Note: nÃ©cessite un backend proxy en prod (CORS)
-  // En local sur file:// Ã§a marche directement
+  // Note: nécessite un backend proxy en prod (CORS)
+  // En local sur file:// ça marche directement
   const r = await fetch(`https://gmaps-proxy.adrien49-royer.workers.dev/?url=${encodeURIComponent(url)}`);
   const json = await r.json();
   
   if (!json.candidates || !json.candidates.length) {
     setLoading(false);
-    showError('Commerce introuvable. VÃ©rifiez le nom et la ville.');
+    showError('Commerce introuvable. Vérifiez le nom et la ville.');
     return;
   }
   
@@ -652,7 +652,7 @@ function generateMock(name, city) {
   const seed = (name + city).split('').reduce((a,c) => a + c.charCodeAt(0), 0);
   const rnd = (n) => ((seed * 1664525 + n * 1013904223) & 0x7fffffff) % 100;
   return {
-    name, address:`${rnd(1) % 99 + 1} Rue ${['de la Paix','Victor Hugo','Gambetta','du Commerce','de la RÃ©publique'][rnd(2)%5]}, ${city}`,
+    name, address:`${rnd(1) % 99 + 1} Rue ${['de la Paix','Victor Hugo','Gambetta','du Commerce','de la République'][rnd(2)%5]}, ${city}`,
     rating: +(2.5 + (rnd(3) / 100) * 2.5).toFixed(1),
     reviewCount: 5 + rnd(4) % 120,
     hasPhone: rnd(5) > 10,
@@ -668,9 +668,9 @@ function generateMock(name, city) {
   };
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 // CALCUL DU SCORE
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 function computeScore(d) {
   const C = [];
   const add = (label, detail, max, status) => {
@@ -680,51 +680,51 @@ function computeScore(d) {
 
   // Note (20pts)
   add('Note Google',
-    d.rating >= 4.3 ? `${d.rating}/5 â Excellente note` : d.rating >= 3.5 ? `${d.rating}/5 â Peut mieux faire` : `${d.rating}/5 â Note insuffisante, frein Ã  la conversion`,
+    d.rating >= 4.3 ? `${d.rating}/5 — Excellente note` : d.rating >= 3.5 ? `${d.rating}/5 — Peut mieux faire` : `${d.rating}/5 — Note insuffisante, frein à la conversion`,
     20, d.rating >= 4.3 ? 'ok' : d.rating >= 3.5 ? 'warn' : 'bad');
 
   // Volume avis (15pts)
   add('Volume d\'avis',
-    d.reviewCount >= 100 ? `${d.reviewCount} avis â TrÃ¨s bon volume` : d.reviewCount >= 30 ? `${d.reviewCount} avis â Volume correct, continuez Ã  en solliciter` : `Seulement ${d.reviewCount} avis â TrÃ¨s insuffisant pour le SEO local`,
+    d.reviewCount >= 100 ? `${d.reviewCount} avis — Très bon volume` : d.reviewCount >= 30 ? `${d.reviewCount} avis — Volume correct, continuez à en solliciter` : `Seulement ${d.reviewCount} avis — Très insuffisant pour le SEO local`,
     15, d.reviewCount >= 100 ? 'ok' : d.reviewCount >= 30 ? 'warn' : 'bad');
 
   // Photos (15pts)
   add('Photos',
-    d.photoCount >= 15 ? `${d.photoCount} photos â Excellent` : d.photoCount >= 8 ? `${d.photoCount} photos â En dessous des 15 recommandÃ©es` : `${d.photoCount} photo(s) â TrÃ¨s insuffisant, impact direct sur les clics`,
+    d.photoCount >= 15 ? `${d.photoCount} photos — Excellent` : d.photoCount >= 8 ? `${d.photoCount} photos — En dessous des 15 recommandées` : `${d.photoCount} photo(s) — Très insuffisant, impact direct sur les clics`,
     15, d.photoCount >= 15 ? 'ok' : d.photoCount >= 8 ? 'warn' : 'bad');
 
-  // RÃ©ponses avis (15pts)
-  add('RÃ©ponses aux avis',
-    d.ownerReplies >= 8 ? `PropriÃ©taire trÃ¨s rÃ©actif (${d.ownerReplies} rÃ©ponses)` : d.ownerReplies >= 3 ? `Taux de rÃ©ponse faible (${d.ownerReplies} rÃ©ponses)` : `Ne rÃ©pond pas aux avis â TrÃ¨s nÃ©gatif pour l'image`,
+  // Réponses avis (15pts)
+  add('Réponses aux avis',
+    d.ownerReplies >= 8 ? `Propriétaire très réactif (${d.ownerReplies} réponses)` : d.ownerReplies >= 3 ? `Taux de réponse faible (${d.ownerReplies} réponses)` : `Ne répond pas aux avis — Très négatif pour l'image`,
     15, d.ownerReplies >= 8 ? 'ok' : d.ownerReplies >= 3 ? 'warn' : 'bad');
 
-  // FraÃ®cheur avis (10pts)
-  add('FraÃ®cheur des avis',
-    d.lastReviewDays <= 10 ? `Dernier avis il y a ${d.lastReviewDays}j â Excellent` : d.lastReviewDays <= 21 ? `Dernier avis il y a ${d.lastReviewDays}j â Acceptable` : `Dernier avis il y a ${d.lastReviewDays}j â Trop ancien`,
+  // Fraîcheur avis (10pts)
+  add('Fraîcheur des avis',
+    d.lastReviewDays <= 10 ? `Dernier avis il y a ${d.lastReviewDays}j — Excellent` : d.lastReviewDays <= 21 ? `Dernier avis il y a ${d.lastReviewDays}j — Acceptable` : `Dernier avis il y a ${d.lastReviewDays}j — Trop ancien`,
     10, d.lastReviewDays <= 10 ? 'ok' : d.lastReviewDays <= 21 ? 'warn' : 'bad');
 
-  // CoordonnÃ©es (10pts)
-  add('CoordonnÃ©es complÃ¨tes',
-    d.hasPhone && d.hasWebsite ? 'TÃ©lÃ©phone + site web prÃ©sents' : d.hasPhone ? 'Site web manquant â Perd de la crÃ©dibilitÃ©' : 'TÃ©lÃ©phone et site web manquants',
+  // Coordonnées (10pts)
+  add('Coordonnées complètes',
+    d.hasPhone && d.hasWebsite ? 'Téléphone + site web présents' : d.hasPhone ? 'Site web manquant — Perd de la crédibilité' : 'Téléphone et site web manquants',
     10, d.hasPhone && d.hasWebsite ? 'ok' : d.hasPhone ? 'warn' : 'bad');
 
   // Horaires (10pts)
   add('Horaires',
-    d.hasHours && d.hoursUpToDate ? 'Horaires complets et Ã  jour' : d.hasHours ? 'Horaires prÃ©sents mais peut-Ãªtre obsolÃ¨tes' : 'Aucun horaire â 1Ã¨re cause d\'abandon client',
+    d.hasHours && d.hoursUpToDate ? 'Horaires complets et à jour' : d.hasHours ? 'Horaires présents mais peut-être obsolètes' : 'Aucun horaire — 1ère cause d\'abandon client',
     10, d.hasHours && d.hoursUpToDate ? 'ok' : d.hasHours ? 'warn' : 'bad');
 
   // Menu/services (5pts)
-  add('Menu / Services listÃ©s',
-    d.hasMenu ? 'Menu ou liste de services prÃ©sent' : 'Aucun menu/service â OpportunitÃ© manquÃ©e',
+  add('Menu / Services listés',
+    d.hasMenu ? 'Menu ou liste de services présent' : 'Aucun menu/service — Opportunité manquée',
     5, d.hasMenu ? 'ok' : 'bad');
 
   const total = C.reduce((a,c) => a + c.pts, 0);
   return { score: total, criteria: C };
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 // AFFICHAGE
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 function runAnalysis(data) {
   currentData = data;
   setLoading(false);
@@ -747,25 +747,25 @@ function runAnalysis(data) {
 
   // Verdict
   const vp = document.getElementById('verdictPill');
-  if (score >= 70) { vp.textContent = 'Fiche bien optimisÃ©e'; vp.className = 'verdict-pill v-good'; }
-  else if (score >= 45) { vp.textContent = 'Optimisation nÃ©cessaire'; vp.className = 'verdict-pill v-mid'; }
-  else { vp.textContent = 'Fiche trÃ¨s mal optimisÃ©e'; vp.className = 'verdict-pill v-bad'; }
+  if (score >= 70) { vp.textContent = 'Fiche bien optimisée'; vp.className = 'verdict-pill v-good'; }
+  else if (score >= 45) { vp.textContent = 'Optimisation nécessaire'; vp.className = 'verdict-pill v-mid'; }
+  else { vp.textContent = 'Fiche très mal optimisée'; vp.className = 'verdict-pill v-bad'; }
 
-  // MÃ©triques
-  document.getElementById('mNote').textContent = data.rating + 'â';
+  // Métriques
+  document.getElementById('mNote').textContent = data.rating + '★';
   document.getElementById('mNoteSub').textContent = data.rating >= 4.3 ? 'Excellente' : data.rating >= 3.5 ? 'Passable' : 'Insuffisante';
   document.getElementById('mAvis').textContent = data.reviewCount;
-  document.getElementById('mAvisSub').textContent = data.reviewCount >= 100 ? 'TrÃ¨s bon' : data.reviewCount >= 30 ? 'Correct' : 'Insuffisant';
+  document.getElementById('mAvisSub').textContent = data.reviewCount >= 100 ? 'Très bon' : data.reviewCount >= 30 ? 'Correct' : 'Insuffisant';
   const pctOk = Math.round(criteria.filter(c => c.status === 'ok').length / criteria.length * 100);
   document.getElementById('mComp').textContent = pctOk + '%';
-  document.getElementById('mCompSub').textContent = pctOk >= 75 ? 'Bonne complÃ©tude' : 'Ã complÃ©ter';
+  document.getElementById('mCompSub').textContent = pctOk >= 75 ? 'Bonne complétude' : 'À compléter';
 
-  // CritÃ¨res
-  document.getElementById('criteriaCount').textContent = `${criteria.filter(c=>c.status==='ok').length}/${criteria.length} critÃ¨res OK`;
+  // Critères
+  document.getElementById('criteriaCount').textContent = `${criteria.filter(c=>c.status==='ok').length}/${criteria.length} critères OK`;
   document.getElementById('criteriaList').innerHTML = criteria.map(c => `
     <div class="crit-row">
       <div class="crit-ico ${c.status==='ok'?'ico-ok':c.status==='warn'?'ico-warn':'ico-bad'}">
-        ${c.status==='ok' ? 'â' : c.status==='warn' ? '!' : 'â'}
+        ${c.status==='ok' ? '✓' : c.status==='warn' ? '!' : '✗'}
       </div>
       <div class="crit-body">
         <div class="crit-title">${c.label}</div>
@@ -775,42 +775,42 @@ function runAnalysis(data) {
     </div>
   `).join('');
 
-  // Recommandations prioritaires (top 3 problÃ¨mes)
+  // Recommandations prioritaires (top 3 problèmes)
   const topProblems = problems.slice(0, 4);
   const recoActions = {
-    'Note Google': { action: 'Mettre en place une stratÃ©gie de demande d\'avis : envoyer un SMS avec lien Google aprÃ¨s chaque prestation.', gain: '+ jusqu\'Ã  20 pts' },
-    'Volume d\'avis': { action: 'Solliciter activement les clients satisfaits via QR code en caisse ou SMS automatique.', gain: '+ jusqu\'Ã  15 pts' },
-    'Photos': { action: 'Ajouter 15 photos haute qualitÃ© : extÃ©rieur, intÃ©rieur, Ã©quipe, produits/plats.', gain: '+ jusqu\'Ã  15 pts' },
-    'RÃ©ponses aux avis': { action: 'RÃ©pondre Ã  tous les avis non-traitÃ©s dans les 48h, en commenÃ§ant par les nÃ©gatifs.', gain: '+ jusqu\'Ã  15 pts' },
-    'FraÃ®cheur des avis': { action: 'Relancer la collecte d\'avis â viser 2 avis minimum par semaine.', gain: '+ jusqu\'Ã  10 pts' },
-    'CoordonnÃ©es complÃ¨tes': { action: 'Ajouter le site web et vÃ©rifier le numÃ©ro de tÃ©lÃ©phone sur la fiche GMB.', gain: '+ jusqu\'Ã  10 pts' },
-    'Horaires': { action: 'Renseigner les horaires complets et les mettre Ã  jour (fÃ©riÃ©s, vacances).', gain: '+ jusqu\'Ã  10 pts' },
-    'Menu / Services listÃ©s': { action: 'Ajouter un menu ou une liste de services directement sur la fiche.', gain: '+ 5 pts' },
+    'Note Google': { action: 'Mettre en place une stratégie de demande d\'avis : envoyer un SMS avec lien Google après chaque prestation.', gain: '+ jusqu\'à 20 pts' },
+    'Volume d\'avis': { action: 'Solliciter activement les clients satisfaits via QR code en caisse ou SMS automatique.', gain: '+ jusqu\'à 15 pts' },
+    'Photos': { action: 'Ajouter 15 photos haute qualité : extérieur, intérieur, équipe, produits/plats.', gain: '+ jusqu\'à 15 pts' },
+    'Réponses aux avis': { action: 'Répondre à tous les avis non-traités dans les 48h, en commençant par les négatifs.', gain: '+ jusqu\'à 15 pts' },
+    'Fraîcheur des avis': { action: 'Relancer la collecte d\'avis — viser 2 avis minimum par semaine.', gain: '+ jusqu\'à 10 pts' },
+    'Coordonnées complètes': { action: 'Ajouter le site web et vérifier le numéro de téléphone sur la fiche GMB.', gain: '+ jusqu\'à 10 pts' },
+    'Horaires': { action: 'Renseigner les horaires complets et les mettre à jour (fériés, vacances).', gain: '+ jusqu\'à 10 pts' },
+    'Menu / Services listés': { action: 'Ajouter un menu ou une liste de services directement sur la fiche.', gain: '+ 5 pts' },
   };
   document.getElementById('recoList').innerHTML = topProblems.length ? topProblems.map((c, i) => {
-    const reco = recoActions[c.label] || { action: 'Optimiser ce critÃ¨re.', gain: '' };
+    const reco = recoActions[c.label] || { action: 'Optimiser ce critère.', gain: '' };
     return `<div class="reco-item">
       <div class="reco-num">${i+1}</div>
       <div>
-        <div class="reco-text"><strong>${c.label}</strong> â ${reco.action}</div>
+        <div class="reco-text"><strong>${c.label}</strong> — ${reco.action}</div>
         <div class="reco-gain">${reco.gain}</div>
       </div>
     </div>`;
-  }).join('') : '<div class="reco-item"><div class="reco-num">â</div><div class="reco-text">Fiche optimisÃ©e. Maintenir le cap !</div></div>';
+  }).join('') : '<div class="reco-item"><div class="reco-num">✓</div><div class="reco-text">Fiche optimisée. Maintenir le cap !</div></div>';
 
   // CTA
   document.getElementById('ctaTitle').textContent = problems.length > 3
-    ? `${problems.length} problÃ¨mes dÃ©tectÃ©s â ${data.name} perd des clients`
-    : score >= 70 ? 'Fiche solide â maintenons-la au sommet'
-    : 'Quelques optimisations feront la diffÃ©rence';
+    ? `${problems.length} problèmes détectés — ${data.name} perd des clients`
+    : score >= 70 ? 'Fiche solide — maintenons-la au sommet'
+    : 'Quelques optimisations feront la différence';
 
   // Show
   document.getElementById('results').classList.add('show');
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 // UTILS
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 function setLoading(v) {
   document.getElementById('loading').className = 'loading' + (v ? ' show' : '');
   document.getElementById('btnAnalyze').disabled = v;
@@ -822,50 +822,50 @@ function showError(msg) {
   el.className = 'error-msg' + (msg ? ' show' : '');
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 // EMAIL DE PROSPECTION
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
 function copyProspectEmail() {
   if (!currentData) return;
   const { score, criteria } = computeScore(currentData);
   const d = currentData;
   const problems = criteria.filter(c => c.status !== 'ok').map(c => `- ${c.label} : ${c.detail}`).join('\n');
 
-  const email = `Objet : Votre fiche Google Maps â Rapport gratuit (score : ${score}/100)
+  const email = `Objet : Votre fiche Google Maps — Rapport gratuit (score : ${score}/100)
 
 Bonjour,
 
-Je me permets de vous contacter au sujet de votre prÃ©sence sur Google Maps.
+Je me permets de vous contacter au sujet de votre présence sur Google Maps.
 
-J'ai rÃ©alisÃ© un audit gratuit de votre fiche "${d.name}" et voici ce que j'ai trouvÃ© :
+J'ai réalisé un audit gratuit de votre fiche "${d.name}" et voici ce que j'ai trouvé :
 
-ð Score de visibilitÃ© : ${score}/100
-ð ${d.address}
+📊 Score de visibilité : ${score}/100
+📍 ${d.address}
 
-Points Ã  amÃ©liorer :
+Points à améliorer :
 ${problems}
 
-Ces problÃ¨mes ont un impact direct sur votre classement local et le nombre de clients qui vous trouvent sur Google Maps.
+Ces problèmes ont un impact direct sur votre classement local et le nombre de clients qui vous trouvent sur Google Maps.
 
-Je serais ravi de vous prÃ©senter en 15 minutes comment nous pouvons amÃ©liorer votre score Ã  plus de 80/100 et augmenter votre visibilitÃ© locale.
+Je serais ravi de vous présenter en 15 minutes comment nous pouvons améliorer votre score à plus de 80/100 et augmenter votre visibilité locale.
 
 Seriez-vous disponible cette semaine pour un appel rapide ?
 
 Cordialement,
 [Votre nom]
 [Votre agence]
-[TÃ©lÃ©phone]`;
+[Téléphone]`;
 
   navigator.clipboard.writeText(email).then(() => {
     const btn = document.getElementById('btnProspect');
-    btn.textContent = 'â CopiÃ© !';
+    btn.textContent = '✓ Copié !';
     setTimeout(() => { btn.textContent = 'Copier l\'email de prospection'; }, 2500);
   });
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââ
-// EXPORT (impression navigateur â PDF)
-// âââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════
+// EXPORT (impression navigateur → PDF)
+// ═══════════════════════════════════════════
 function exportReport() {
   if (!currentData) return;
   window.print();
